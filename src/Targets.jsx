@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { Quaternion, TorusGeometry, Vector3 } from "three";
 import { mergeBufferGeometries } from "three-stdlib";
 import { useFrame } from "@react-three/fiber";
+import { useGLTF } from "@react-three/drei";
 import { planePosition } from "./Airplane";
 
 function randomPoint(scale) {
@@ -13,8 +14,10 @@ function randomPoint(scale) {
 }
 
 const TARGET_RAD = 0.125;
+const CAPYBARA_COUNT = 5;
 
-export function Targets() {
+export function Targets({setCounter, counter}) {
+  const { scene: capybaraScene } = useGLTF("assets/models/capybara.gltf");
   const [targets, setTargets] = useState(() => {
     const arr = [];
     for (let i = 0; i < 25; i++) {
@@ -24,9 +27,9 @@ export function Targets() {
         ),
         direction: randomPoint().normalize(),
         hit: false,
+        hasCapybara: i < CAPYBARA_COUNT
       });
     }
-
     return arr;
   });
 
@@ -51,7 +54,7 @@ export function Targets() {
   }, [targets]);
 
   useFrame(() => {
-    targets.forEach((target, i) => {
+    targets.forEach((target) => {
       const v = planePosition.clone().sub(target.center);
       const dist = target.direction.dot(v);
       const projected = planePosition
@@ -66,13 +69,32 @@ export function Targets() {
 
     const atLeastOneHit = targets.find((target) => target.hit);
     if (atLeastOneHit) {
-      setTargets(targets.filter((target) => !target.hit));
+      setTargets(targets.filter((target) => {
+        if (target.hit) {
+          setCounter(counter + (target.hasCapybara ? 5 : 1));
+        }
+        return !target.hit}));
     }
   });
 
   return (
-    <mesh geometry={geometry}>
-      <meshStandardMaterial roughness={0.5} metalness={0.5} />
-    </mesh>
+    <>
+      <mesh geometry={geometry}>
+        <meshStandardMaterial roughness={0.5} metalness={0.5} />
+      </mesh>
+      {targets.map((target, i) => 
+        target.hasCapybara && (
+          <primitive 
+            key={i}
+            object={capybaraScene.clone()} 
+            position={target.center}
+            rotation={[0, Math.random() * Math.PI * 2, 0]}
+            scale={0.01}
+          />
+        )
+      )}
+    </>
   );
 }
+
+useGLTF.preload("assets/models/capybara.gltf");
