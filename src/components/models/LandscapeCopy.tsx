@@ -40,10 +40,9 @@ export function Landscape(props) {
   //   ];
   // }, [])
 
-
   return (
     <group {...props} dispose={null} scale={[10, 10, 10]} position={[2, 2, 2]}>
-      <primitive object={test.scene}/>
+      <primitive object={test.scene} />
       {/* <mesh geometry={test.nodes["landscap_0"].geometry} /> */}
       {/* <mesh
         geometry={nodes.landscape_gltf.geometry}

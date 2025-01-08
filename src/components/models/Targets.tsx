@@ -5,29 +5,34 @@ import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import { planePosition } from "./Airplane";
 
-function randomPoint(scale) {
+function randomPoint(scale?: Vector3) {
   return new Vector3(
     Math.random() * 2 - 1,
     Math.random() * 2 - 1,
-    Math.random() * 2 - 1
+    Math.random() * 2 - 1,
   ).multiply(scale || new Vector3(1, 1, 1));
 }
 
 const TARGET_RAD = 0.125;
 const CAPYBARA_COUNT = 5;
 
-export function Targets({setCounter, counter}) {
+export type TargetsProps = {
+  setCounter: (value: number) => void;
+  counter: number;
+};
+
+export function Targets({ setCounter, counter }: TargetsProps) {
   const { scene: capybaraScene } = useGLTF("assets/models/capybara.gltf");
   const [targets, setTargets] = useState(() => {
     const arr = [];
     for (let i = 0; i < 25; i++) {
       arr.push({
         center: randomPoint(new Vector3(4, 1, 4)).add(
-          new Vector3(0, 2 + Math.random() * 2, 0)
+          new Vector3(0, 2 + Math.random() * 2, 0),
         ),
         direction: randomPoint().normalize(),
         hit: false,
-        hasCapybara: i < CAPYBARA_COUNT
+        hasCapybara: i < CAPYBARA_COUNT,
       });
     }
     return arr;
@@ -41,8 +46,8 @@ export function Targets({setCounter, counter}) {
       torusGeo.applyQuaternion(
         new Quaternion().setFromUnitVectors(
           new Vector3(0, 0, 1),
-          target.direction
-        )
+          target.direction,
+        ),
       );
       torusGeo.translate(target.center.x, target.center.y, target.center.z);
 
@@ -69,11 +74,14 @@ export function Targets({setCounter, counter}) {
 
     const atLeastOneHit = targets.find((target) => target.hit);
     if (atLeastOneHit) {
-      setTargets(targets.filter((target) => {
-        if (target.hit) {
-          setCounter(counter + (target.hasCapybara ? 5 : 1));
-        }
-        return !target.hit}));
+      setTargets(
+        targets.filter((target) => {
+          if (target.hit) {
+            setCounter(counter + (target.hasCapybara ? 5 : 1));
+          }
+          return !target.hit;
+        }),
+      );
     }
   });
 
@@ -82,16 +90,17 @@ export function Targets({setCounter, counter}) {
       <mesh geometry={geometry}>
         <meshStandardMaterial roughness={0.5} metalness={0.5} />
       </mesh>
-      {targets.map((target, i) => 
-        target.hasCapybara && (
-          <primitive 
-            key={i}
-            object={capybaraScene.clone()} 
-            position={target.center}
-            rotation={[0, Math.random() * Math.PI * 2, 0]}
-            scale={0.01}
-          />
-        )
+      {targets.map(
+        (target, i) =>
+          target.hasCapybara && (
+            <primitive
+              key={i}
+              object={capybaraScene.clone()}
+              position={target.center}
+              rotation={[0, Math.random() * Math.PI * 2, 0]}
+              scale={0.01}
+            />
+          ),
       )}
     </>
   );

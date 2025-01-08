@@ -21,14 +21,14 @@ export let turbo = 0;
 window.isShiftPressed = false;
 
 // Добавляем слушатели для Shift
-window.addEventListener('keydown', (e) => {
-  if (e.key === 'Shift') {
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Shift") {
     window.isShiftPressed = true;
   }
 });
 
-window.addEventListener('keyup', (e) => {
-  if (e.key === 'Shift') {
+window.addEventListener("keyup", (e) => {
+  if (e.key === "Shift") {
     window.isShiftPressed = false;
   }
 });
@@ -37,10 +37,10 @@ export function updatePlaneAxis(x, y, z, planePosition, camera) {
   jawVelocity *= 0.95;
   pitchVelocity *= 0.95;
 
-  if (Math.abs(jawVelocity) > maxVelocity) 
+  if (Math.abs(jawVelocity) > maxVelocity)
     jawVelocity = Math.sign(jawVelocity) * maxVelocity;
 
-  if (Math.abs(pitchVelocity) > maxVelocity) 
+  if (Math.abs(pitchVelocity) > maxVelocity)
     pitchVelocity = Math.sign(pitchVelocity) * maxVelocity;
 
   if (controls["a"]) {
@@ -79,7 +79,6 @@ export function updatePlaneAxis(x, y, z, planePosition, camera) {
   y.normalize();
   z.normalize();
 
-
   // plane position & velocity
   if (controls.shift) {
     turbo += 0.025;
@@ -93,5 +92,5 @@ export function updatePlaneAxis(x, y, z, planePosition, camera) {
   camera.fov = 45 + turboSpeed * 900;
   camera.updateProjectionMatrix();
 
-  planePosition.add(z.clone().multiplyScalar(-planeSpeed -turboSpeed));
+  planePosition.add(z.clone().multiplyScalar(-planeSpeed - turboSpeed));
 }

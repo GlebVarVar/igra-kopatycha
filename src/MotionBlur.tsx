@@ -1,7 +1,7 @@
-import React, { forwardRef, useMemo } from 'react';
-import { Uniform } from 'three';
-import { Effect } from 'postprocessing';
-import { turbo } from './controls';
+import React, { forwardRef, useMemo } from "react";
+import { Uniform } from "three";
+import { Effect } from "postprocessing";
+import { turbo } from "./controls";
 
 // from:
 // https://docs.pmnd.rs/react-postprocessing/effects/custom-effects
@@ -32,23 +32,23 @@ void mainImage(const in vec4 inputColor, const in vec2 uv, out vec4 outputColor)
   accum *= 1.0 / 14.0;
 
 	outputColor = accum;
-}`
+}`;
 
 // Effect implementation
 class MotionBlurImpl extends Effect {
   constructor() {
-    super('MotionBlur', fragmentShader, {
-      uniforms: new Map([['strength', new Uniform(0)]]),
-    })
+    super("MotionBlur", fragmentShader, {
+      uniforms: new Map([["strength", new Uniform(0)]]),
+    });
   }
 
   update(renderer, inputBuffer, deltaTime) {
-    this.uniforms.get('strength').value = turbo;
+    this.uniforms.get("strength").value = turbo;
   }
 }
 
 // Effect component
-export const MotionBlur = forwardRef(({ }, ref) => {
-  const effect = useMemo(() => new MotionBlurImpl(), [])
-  return <primitive ref={ref} object={effect} dispose={null} />
+export const MotionBlur = forwardRef(({}, ref) => {
+  const effect = useMemo(() => new MotionBlurImpl(), []);
+  return <primitive ref={ref} object={effect} dispose={null} />;
 });
