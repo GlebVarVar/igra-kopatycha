@@ -1,7 +1,7 @@
-import React, { forwardRef, useMemo } from "react";
+import { forwardRef, useMemo } from "react";
 import { Uniform } from "three";
 import { Effect } from "postprocessing";
-import { turbo } from "./controls";
+import { turbo } from "../utils/controls";
 
 // from:
 // https://docs.pmnd.rs/react-postprocessing/effects/custom-effects

@@ -1,4 +1,4 @@
-import { Fragment } from "react/jsx-runtime";
+import styles from "./LeaderBoard.module.css";
 
 export type LeaderboardTableProps = {
   leaderboard: PlayerData[];
@@ -49,48 +49,28 @@ export const saveToLeaderboard = (name: string, score: number) => {
 
 export function LeaderboardTable({ leaderboard }: LeaderboardTableProps) {
   return (
-    <div
-      style={{
-        background: "rgba(0, 0, 0, 0.7)",
-        padding: "20px",
-        borderRadius: "15px",
-        marginTop: "20px",
-        marginBottom: "40px",
-        maxWidth: "400px",
-        width: "100%",
-      }}
-    >
-      <h2
-        style={{
-          color: "#ffd700",
-          textAlign: "center",
-          marginBottom: "15px",
-        }}
-      >
-        Таблица лидеров
-      </h2>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "40px 1fr 80px 100px",
-          gap: "10px",
-          color: "#fff",
-          fontSize: "16px",
-        }}
-      >
-        <div style={{ fontWeight: "bold" }}>№</div>
-        <div style={{ fontWeight: "bold" }}>Имя</div>
-        <div style={{ fontWeight: "bold" }}>Очки</div>
-        <div style={{ fontWeight: "bold" }}>Дата</div>
-        {leaderboard.map((entry, index) => (
-          <Fragment key={index}>
-            <div>{index + 1}</div>
-            <div>{entry.name}</div>
-            <div>{entry.score}</div>
-            <div>{entry.date}</div>
-          </Fragment>
-        ))}
-      </div>
+    <div className={styles.leaderboardContainer}>
+      <h2 className={styles.leaderboardTitle}>Таблица лидеров</h2>
+      <table className={styles.leaderboardTable}>
+        <thead>
+          <tr>
+            <th className={styles.tableHeader}>Место</th>
+            <th className={styles.tableHeader}>Имя</th>
+            <th className={styles.tableHeader}>Очки</th>
+            <th className={styles.tableHeader}>Дата</th>
+          </tr>
+        </thead>
+        <tbody>
+          {leaderboard.map((entry, index) => (
+            <tr key={index} className={styles.tableRow}>
+              <td className={styles.tableCell}>{index + 1}</td>
+              <td className={styles.tableCell}>{entry.name}</td>
+              <td className={styles.tableCell}>{entry.score}</td>
+              <td className={styles.tableCell}>{entry.date}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

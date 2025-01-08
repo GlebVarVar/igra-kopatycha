@@ -4,10 +4,13 @@ import { BlendFunction } from "postprocessing";
 import { Landscape } from "./components/models/LandscapeCopy";
 import { SphereEnv } from "./components/models/SphereEnv";
 import { Targets } from "./components/models/Targets";
-import { MotionBlur } from "./MotionBlur";
+import { MotionBlur } from "./effects/MotionBlur";
 import { Canvas } from "@react-three/fiber";
-import React, { Suspense, useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { Airplane, DeathPlane } from "./components/models";
+import { saveToLeaderboard } from "./components/LeaderBoard";
+import { GameOverScreen, StartScreen } from "./pages";
+import styles from "./App.module.css";
 
 function AppWrapper() {
   const [counter, setCounter] = useState<number>(0);
@@ -62,73 +65,16 @@ function AppWrapper() {
 
   return (
     <>
-      <div
-        style={{
-          position: "absolute",
-          top: "20px",
-          left: "20px",
-          padding: "15px 25px",
-          background: "rgba(0, 0, 0, 0.7)",
-          borderRadius: "15px",
-          color: "#fff",
-          fontSize: "24px",
-          fontFamily: "Arial, sans-serif",
-          fontWeight: "bold",
-          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-          display: "flex",
-          alignItems: "center",
-          gap: "10px",
-          zIndex: 9999,
-          backdropFilter: "blur(5px)",
-          border: "1px solid rgba(255, 255, 255, 0.1)",
-        }}
-      >
-        <span style={{ color: "#ffd700" }}>{playerName}:</span>
+      <div className={styles.scoreDisplay}>
+        <span className={styles.playerName}>{playerName}:</span>
         <span>{counter}</span>
       </div>
       <div
-        style={{
-          position: "absolute",
-          top: "20px",
-          left: "50%",
-          transform: "translateX(-50%)",
-          padding: "15px 25px",
-          background:
-            timeLeft <= 30 ? "rgba(255, 0, 0, 0.7)" : "rgba(0, 0, 0, 0.7)",
-          borderRadius: "15px",
-          color: "#fff",
-          fontSize: "24px",
-          fontFamily: "Arial, sans-serif",
-          fontWeight: "bold",
-          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-          display: "flex",
-          alignItems: "center",
-          gap: "10px",
-          zIndex: 9999,
-          backdropFilter: "blur(5px)",
-          border: "1px solid rgba(255, 255, 255, 0.1)",
-          transition: "background 0.3s",
-        }}
+        className={`${styles.timer} ${timeLeft <= 10 ? styles.timerWarning : ""}`}
       >
-        <span style={{ color: "#ffd700" }}>Время:</span>
         <span>{timeLeft}</span>
       </div>
-      <button
-        onClick={handleGameOver}
-        style={{
-          position: "absolute",
-          top: "20px",
-          right: "20px",
-          padding: "10px 20px",
-          background: "rgba(255, 0, 0, 0.7)",
-          border: "none",
-          borderRadius: "8px",
-          color: "#fff",
-          cursor: "pointer",
-          zIndex: 9999,
-          fontSize: "16px",
-        }}
-      >
+      <button onClick={handleGameOver} className={styles.endGameButton}>
         Завершить игру
       </button>
       <Canvas shadows>

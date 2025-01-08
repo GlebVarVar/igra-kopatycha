@@ -14,7 +14,7 @@ import {
   AudioListener,
   AudioLoader,
 } from "three";
-import { updatePlaneAxis } from "../../controls";
+import { updatePlaneAxis } from "../../utils/controls";
 
 const x = new Vector3(1, 0, 0);
 const y = new Vector3(0, 1, 0);

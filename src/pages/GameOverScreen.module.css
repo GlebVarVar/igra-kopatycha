@@ -1,0 +1,55 @@
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  z-index: 9999;
+}
+
+.image {
+  width: 400px;
+  object-fit: contain;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 48px;
+  color: #ffd700;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.scoreInfo {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.restartButton {
+  padding: 15px 40px;
+  font-size: 24px;
+  background: linear-gradient(45deg, #ffd700 0%, #ffa500 100%);
+  border: none;
+  border-radius: 25px;
+  color: #1a1a2e;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.restartButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+}
