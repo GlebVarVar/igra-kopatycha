@@ -159,7 +159,7 @@ function App({ setCounter, counter }: AppProps) {
 
       <PerspectiveCamera makeDefault position={[0, 10, 10]} />
 
-      {/* <Landscapeц /> */}
+      <Landscape />
       <Airplane planeType={planeType} />
       <DeathPlane />
       <Targets setCounter={setCounter} counter={counter} />
