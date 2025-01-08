@@ -29,13 +29,17 @@ export function StartScreen({ onStart }: StartScreenProps) {
       <div className={styles.wrapper}>
         <h1 className={styles.title}>Игра Капатыча</h1>
         <div className={styles.instructions}>
-          <p>Управление: WASD для движения</p>
-          <p>SHIFT для ускорения</p>
+          <p>Управление:</p>
+          <p>WASD - управление самолетом</p>
+          <p>SHIFT - ускорение</p>
+          <p>N/M - приближение/отдаление камеры</p>
+          <p>V - переключение вида (от первого/третьего лица)</p>
           <p>O - винтажный самолет, P - корсар</p>
-          <p>Клавиши 1,2,3 для смены освещения</p>
+          <p>Клавиши 1,2,3 - смена освещения</p>
+          <p>R - сброс позиции самолета</p>
           <p>Собирайте кольца для получения очков</p>
           <p>Капибара внутри кольца = 5 очков!</p>
-          <p>У вас есть 2 минуты. Удачи!</p>
+          <p>У вас есть 1 минута. Удачи!</p>
         </div>
         <div className={styles.inputWrapper}>
           <input

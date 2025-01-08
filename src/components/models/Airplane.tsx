@@ -14,7 +14,7 @@ import {
   AudioListener,
   AudioLoader,
 } from "three";
-import { updatePlaneAxis } from "../../utils/controls";
+import { updatePlaneAxis, cameraDistance, isFirstPerson } from "../../utils/controls";
 
 const x = new Vector3(1, 0, 0);
 const y = new Vector3(0, 1, 0);
@@ -131,9 +131,17 @@ export function Airplane(props) {
           planePosition.z,
         ),
       )
-      .multiply(delayedRotMatrix)
-      .multiply(new Matrix4().makeRotationX(-0.2))
-      .multiply(new Matrix4().makeTranslation(0, 0.015, 0.3));
+      .multiply(delayedRotMatrix);
+
+    if (isFirstPerson) {
+      // Вид от первого лица
+      cameraMatrix.multiply(new Matrix4().makeTranslation(0, 0.1, 0));
+    } else {
+      // Обычный вид от третьего лица
+      cameraMatrix
+        .multiply(new Matrix4().makeRotationX(-0.2))
+        .multiply(new Matrix4().makeTranslation(0, 0.015, cameraDistance));
+    }
 
     camera.matrixAutoUpdate = false;
     camera.matrix.copy(cameraMatrix);
@@ -142,7 +150,7 @@ export function Airplane(props) {
     if (props.planeType === "vintage") {
       helixMeshRef.current.rotation.z -= 1.0;
     }
-
+    
     // Проверка столкновения с нижней плоскостью
     if (planePosition.y < -10) {
       // Остановка звука
